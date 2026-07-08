@@ -71,5 +71,5 @@ const styles = {
   label: { fontSize: 13, fontWeight: 500, color: '#9090aa' },
   input: { background: '#13131a', border: '1px solid #2a2a38', borderRadius: 10, padding: '14px 16px', color: '#f0f0f8', fontSize: 16, outline: 'none', fontFamily: 'DM Sans, sans-serif' },
   textarea: { background: '#13131a', border: '1px solid #2a2a38', borderRadius: 10, padding: '14px 16px', color: '#f0f0f8', fontSize: 15, outline: 'none', resize: 'vertical', fontFamily: 'DM Sans, sans-serif', lineHeight: 1.7 },
-  btn: { background: 'linear-gradient(135deg, #7c6dfa, #a78bfa)', color: '#fff', border: 'none', borderRadius: 10, padding: '14px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'Syne, sans-serif', letterSpacing: 0.5 },
+  btn: { background: 'linear-gradient(135deg, #7c6dfa, #a78bfa)', color: '#022311', border: 'none', borderRadius: 10, padding: '14px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'Syne, sans-serif', letterSpacing: 0.5 },
 };
