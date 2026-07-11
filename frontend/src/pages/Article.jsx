@@ -92,7 +92,7 @@ export default function Articledetails(){
                                 <textarea onChange={handleHeadChange}
                                  value={head}
                                  type="text"
-                                 placeholder='Title'
+                                 placeholder="Title"
                                 />
                             ) :(
                               <h3 onClick={() => seteditingTitle(true)} style={styles.articleTitle}>{article.title}</h3>
@@ -101,7 +101,7 @@ export default function Articledetails(){
                                 <textarea
                                     onChange={handleTextChange}
                                     value={text}
-                                    placeholder='content'
+                                    placeholder="content"
                                 />
                             ) : (
                                 <p  onClick={() => seteditingContent(true)}   style={styles.articlePreview}>
