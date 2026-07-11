@@ -37,7 +37,8 @@ export const getMyArticlesbyId = async(req,res) =>{
 export const updateArticle = async(req,res) => {
   try{
     const {title, content} = req.body;
-    const article = await Article.findOneAndUpdate({_id: req.params.id}, {title, content}, {new:true});
+    const article = await Article.findByIdAndUpdate({_id: req.params.id}, {title, content}, {new:true});
+    console.log(error);
     if(!article) return res.status(400).json({message: "Article not found"});
     res.json(article);
   }catch(err){

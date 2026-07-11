@@ -3,9 +3,14 @@ import axiosInstance from '../utils/axiosInstance';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Articledetails(){
     const {id}= useParams();
     const [article, setArticle] = useState(null);
+    const [text, setText] = useState('');
+    const [head, setHead] = useState('');
+    const [iseditingTitle, seteditingTitle] = useState(false);
+    const [iseditingContent, seteditingContent] = useState(false);
     const navigate = useNavigate();
    
 
@@ -23,9 +28,42 @@ export default function Articledetails(){
         loadArticle();
     }, [id])
 
+
+    useEffect(()=>{
+        if(article){
+            setHead(article.title);
+            setText(article.content);
+        }
+
+    }, [article])
+
+
     if(!article){
         return <div>Loading.....</div>
     }
+
+    const handleHeadChange = (e) =>{
+        setHead(e.target.value);
+    }
+
+    const handleTextChange = (e) =>{
+        setText(e.target.value);
+    }
+
+    const handleUpdate =async(id) =>{
+        // e.preventDefault();
+        if(!confirm("save updates")) return;
+        const res = await axiosInstance.put(`/articles/${id}`, {title: head, content:text});
+        
+        setArticle(res.data);
+    };
+
+    const handleDelete = async (id) => {
+        // e.preventDefault();
+    if (!confirm('Delete this article?')) return;
+    await axiosInstance.delete(`/articles/${id}`);
+    setArticles(prev => prev.filter(a => a._id !== id));
+  };
 
 
     return(
@@ -44,19 +82,40 @@ export default function Articledetails(){
             
                 
                     <div  style={styles.articleCard}>
-                       
+                       <form >
+                        
+                              
                         <div style={styles.articleMeta}>
                             {new Date(article.createdAt).toLocaleString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'})}
                             </div>
-                             <h3 style={styles.articleTitle}>{article.title}</h3>
-                <p style={styles.articlePreview}>
+                            {iseditingTitle ? (
+                                <textarea onChange={handleHeadChange}
+                                 value={head}
+                                 type="text"
+                                 placeholder='Title'
+                                />
+                            ) :(
+                              <h3 onClick={() => seteditingTitle(true)} style={styles.articleTitle}>{article.title}</h3>
+                            )}
+                            {iseditingContent ? (
+                                <textarea
+                                    onChange={handleTextChange}
+                                    value={text}
+                                    placeholder='content'
+                                />
+                            ) : (
+                                <p  onClick={() => seteditingContent(true)}   style={styles.articlePreview}>
                   {article.content.length > 120 ? article.content.slice(0) : article.content}
                 </p>
-                <button style={styles.deleteBtn} onClick={() => handleDelete(a._id)}>Delete</button>
-
+                            )}
+                
+                <button style={styles.deleteBtn} onClick={() => handleDelete(article._id)}>Delete</button>
+                <button type='button' style={styles.updateBtn} onClick={() => handleUpdate(article._id)}>Update</button>
+                </form>
                 </div>
                 
             </div>
+            
         
         </div>
     )
@@ -76,4 +135,5 @@ const styles ={
     articleTitle: { fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 700, color: '#f0f0f8', lineHeight: 1.4 },
     articlePreview: { fontSize: 14, color: '#6b6b85', lineHeight: 1.7, flex: 1 },
     deleteBtn: { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', color: '#f87171', padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontFamily: 'DM Sans, sans-serif', alignSelf: 'flex-start', marginTop: 4 },
+    updateBtn: { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', color: '#f87171', padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontFamily: 'DM Sans, sans-serif', alignSelf: 'flex-start', marginTop: 4 },
 }

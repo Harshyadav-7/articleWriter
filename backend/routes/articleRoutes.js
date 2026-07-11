@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.post('/', protect, createArticle);
 router.get('/my', protect, getMyArticles);
-router.get('/my/:id', getMyArticlesbyId );
-router.put('/:id', updateArticle);
+router.get('/my/:id', protect, getMyArticlesbyId );
+router.put('/:id', protect,  updateArticle);
 router.delete('/:id', protect, deleteArticle);
 
 export default router;

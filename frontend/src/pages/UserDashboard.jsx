@@ -17,11 +17,7 @@ export default function UserDashboard() {
 
   useEffect(() => { fetchArticles(); }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm('Delete this article?')) return;
-    await axiosInstance.delete(`/articles/${id}`);
-    setArticles(prev => prev.filter(a => a._id !== id));
-  };
+  
 
   return (
     <div style={styles.page}>
