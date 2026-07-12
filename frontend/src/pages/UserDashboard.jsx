@@ -13,12 +13,13 @@ export default function UserDashboard() {
     axiosInstance.get('/articles/my')
       .then(({ data }) => setArticles(data))
       .finally(() => setLoading(false));
+      setArticles(prev => prev.filter(a => a._id !== id));
+
   };
 
   useEffect(() => { fetchArticles(); }, []);
 
   
-
   return (
     <div style={styles.page}>
       <div style={styles.glow} />
