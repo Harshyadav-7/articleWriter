@@ -6,12 +6,6 @@ export const askGemini = async (req, res) => {
             return res.status(400).json({ message: "Question is required" });
         }
 
-        // // Step 2: Products ko readable text mein convert karo
-        // const productContext = products.map(p =>
-        //     `${p.name} - ₹${p.price} - ${p.category} - Stock: ${p.stock}`
-        // ).join("\n");
-
-        // Step 3: Prompt banao
         const prompt = `
 You are a Assistant writer at a article firm.
 
@@ -39,8 +33,9 @@ if you can't write anything on the users question just say invalid question.
 
         const data = await response.json();
 
+        console.log(JSON.stringify(data, null, 2));
         // Step 5: Gemini ka reply nikaalo
-        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, koi jawab nahi mila.";
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, nothing found!!!";
 
         
         res.json({ reply });

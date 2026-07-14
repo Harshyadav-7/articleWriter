@@ -6,6 +6,7 @@ export default function WriteArticle() {
   const [form, setForm] = useState({ title: '', content: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [question, setQuestion] = useState('')
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,6 +22,15 @@ export default function WriteArticle() {
       setLoading(false);
     }
   };
+
+  const handleAskGemini = async() =>{
+    try{
+      const res = await axiosInstance.post('/gemini/ask', {question});
+      setForm({...form, content: res.data.reply});
+    }catch(error){
+      console.log("error asking gemini", error);
+    }
+  }
 
   return (
     <div style={styles.page}>
@@ -41,6 +51,10 @@ export default function WriteArticle() {
             <label style={styles.label}>Title</label>
             <input style={styles.input} placeholder="Enter article title..."
               value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
+          </div>
+          <div style={styles.gemRow}>
+            <button style={styles.btn} type='button' onClick={handleAskGemini} >askGemini</button>
+            <input style={styles.input} placeholder='Write your Question' onChange={e => setQuestion(e.target.value)} />
           </div>
           <div style={styles.field}>
             <label style={styles.label}>Content</label>
@@ -72,4 +86,5 @@ const styles = {
   input: { background: '#13131a', border: '1px solid #2a2a38', borderRadius: 10, padding: '14px 16px', color: '#f0f0f8', fontSize: 16, outline: 'none', fontFamily: 'DM Sans, sans-serif' },
   textarea: { background: '#13131a', border: '1px solid #2a2a38', borderRadius: 10, padding: '14px 16px', color: '#f0f0f8', fontSize: 15, outline: 'none', resize: 'vertical', fontFamily: 'DM Sans, sans-serif', lineHeight: 1.7 },
   btn: { background: 'linear-gradient(135deg, #7c6dfa, #a78bfa)', color: '#022311', border: 'none', borderRadius: 10, padding: '14px', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'Syne, sans-serif', letterSpacing: 0.5 },
+  gemRow: { display: 'flex', gap: 12, flexWrap: 'wrap' },
 };
